@@ -1,4 +1,4 @@
-package sample;
+package edu.bsu.cs222.wikipagerevisions;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
