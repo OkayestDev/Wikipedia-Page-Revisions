@@ -1,4 +1,4 @@
-package sample;
+package edu.bsu.cs222.wikipagerevisions;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
         primaryStage.setTitle("Wikipedia Page Revisions");
         primaryStage.setScene(new Scene(root, 500, 500));
         primaryStage.show();
