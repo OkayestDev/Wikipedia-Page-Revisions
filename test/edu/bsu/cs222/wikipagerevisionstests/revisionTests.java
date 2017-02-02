@@ -32,4 +32,10 @@ public class revisionTests {
 //            throw new RuntimeException(e);
 //        }
     }
+
+    @Test
+    public void testReadXMLFile()
+    {
+
+    }
 }

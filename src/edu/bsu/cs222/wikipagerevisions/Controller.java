@@ -3,9 +3,16 @@ package edu.bsu.cs222.wikipagerevisions;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -38,9 +45,11 @@ public class Controller {
             URLConnection connection = url.openConnection();
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(connection.getInputStream());
+            Document doc = builder.parse(url.openStream());
 
-            System.out.println();
+//            TransformerFactory factory1 = TransformerFactory.newInstance();
+//            Transformer xform = factory1.newTransformer();
+//            xform.transform(new DOMSource(doc), new StreamResult(System.out));
         }
         catch(Exception e){
             throw new RuntimeException(e);
