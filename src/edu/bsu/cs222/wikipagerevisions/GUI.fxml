@@ -7,10 +7,8 @@
 
 <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="6.0"
       xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
-   <children>
-      <TextField alignment="TOP_LEFT" promptText="Wiki page to search" />
-      <Button mnemonicParsing="false" onAction="#openXMLFile" text="Search" />
-   </children>
+      <TextField fx:id="searchField" alignment="TOP_LEFT" promptText="Wiki page to search" />
+      <Button mnemonicParsing="false" onAction="#openXML" text="Search" />
    <padding>
       <Insets top="10.0" />
    </padding>
