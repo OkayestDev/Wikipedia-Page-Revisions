@@ -1,5 +1,7 @@
 package edu.bsu.cs222.wikipagerevisions;
 
+import java.util.Calendar;
+
 public class Revisions {
     private String comment;
     private String user;
@@ -14,13 +16,13 @@ public class Revisions {
 
     private String localizeTimestamp(String timestamp)
     {
-        //dunno.
+        //Finish this method, need to change EST to UTC (Zulu)
         return "";
     }
 
     @Override
     public String toString()
     {
-        return user + " " + timestamp + " " + comment;
+        return "User: " + user + " Timestamp: " + timestamp + " Comment: " + comment;
     }
 }

@@ -17,11 +17,26 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class controllerTest {
 
     @FXML
     private Controller test = new Controller();
+
+    private Document openXMLFile(String fileName) {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new File(fileName));
+            return doc;
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     public void testLoadURL() {
@@ -39,22 +54,16 @@ public class controllerTest {
     }
 
     @Test
-    public void testParseXMLFile() {
-
+    public void testParseRevisions() {
+        Document doc = openXMLFile("test-assests/Soup.xml");
+        Revisions rev = new Revisions();
+        rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z", "/* See also */ + * [[Soup and sandwich]]");
+        String parsedRevisions = test.parseRevisions(doc).get(0).toString();
+        String testString = rev.toString();
+        System.out.println(testString + "\n" + parsedRevisions);
+        Assert.assertTrue(testString.equals(parsedRevisions));
     }
 
-    public Document openXMLFile(String fileName) {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new File(fileName));
-            return doc;
-        }
-        catch(Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Test
     public void testDoesPageExistTrue() {

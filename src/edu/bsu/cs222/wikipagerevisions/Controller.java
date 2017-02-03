@@ -11,6 +11,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     @FXML
@@ -55,31 +57,28 @@ public class Controller {
         return null;
     }
 
-    public void parseXMLFile(Document doc) {
+    public List<Revisions> parseRevisions(Document doc) {
         List<Revisions> revisionsList = new ArrayList<Revisions>();
         try {
-            /**
-             * Continue here
-             */
             if (doesPageExist(doc)) {
                 if (doesPageHaveRevisions(doc)) {
-                    NodeList revisionsList = doc.getElementsByTagName("rev");
-                    for (int i = 0; i < revisionsList.getLength(); i++) {
-                        Element tempElement = (Element) revisionsList.item(i);
+                    NodeList numberOfRevisions = doc.getElementsByTagName("rev");
+                    for (int i = 0; i < numberOfRevisions.getLength(); i++) {
+                        Element tempElement = (Element) numberOfRevisions.item(i);
                         String user = tempElement.getAttribute("user");
                         String timestamp = tempElement.getAttribute("timestamp");
                         String comment = tempElement.getAttribute("comment");
                         Revisions rev = new Revisions();
-                        rev.setInformation(user, comment, timestamp);
-                        revisionsList.
+                        rev.setInformation(user, timestamp, comment);
+                        revisionsList.add(rev);
                     }
-                    loadRevisionsToGUI();
                 }
             }
         }
         catch(Exception e) {
             throw new RuntimeException(e);
         }
+        return revisionsList;
     }
 
     public boolean doesPageExist(Document doc)
