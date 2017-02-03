@@ -46,11 +46,14 @@ public class Controller {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
-
-//            TransformerFactory factory1 = TransformerFactory.newInstance();
-//            Transformer xform = factory1.newTransformer();
-//            xform.transform(new DOMSource(doc), new StreamResult(System.out));
-        }
+            NodeList revisions = doc.getElementsByTagName("rev");
+            for (int i = 0; i < revisions.getLength(); i++) { //this actually gets the correct length
+                System.out.println(revisions.item(i));
+            }
+            TransformerFactory factory1 = TransformerFactory.newInstance();
+            Transformer xform = factory1.newTransformer();
+            xform.transform(new DOMSource(doc), new StreamResult(System.out));
+    }
         catch(Exception e){
             throw new RuntimeException(e);
         }
