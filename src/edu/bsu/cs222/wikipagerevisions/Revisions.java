@@ -1,15 +1,26 @@
 package edu.bsu.cs222.wikipagerevisions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Revisions {
-    String comment;
-    String user;
-    String timestamp; //localize to my timezone
+    private String comment;
+    private String user;
+    private String timestamp; //localize to my timezone
 
-    public void localizeTimestamp()
+    public void setInformation(String user, String comment, String timestamp)
     {
+        this.user = user;
+        this.comment = comment;
+        this.timestamp = localizeTimestamp(timestamp);
+    }
 
+    private String localizeTimestamp(String timestamp)
+    {
+        //dunno.
+        return "";
+    }
+
+    @Override
+    public String toString()
+    {
+        return user + " " + timestamp + " " + comment;
     }
 }

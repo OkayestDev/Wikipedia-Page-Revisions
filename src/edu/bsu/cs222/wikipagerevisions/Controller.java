@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
@@ -57,15 +56,22 @@ public class Controller {
     }
 
     public void parseXMLFile(Document doc) {
+        List<Revisions> revisionsList = new ArrayList<Revisions>();
         try {
+            /**
+             * Continue here
+             */
             if (doesPageExist(doc)) {
                 if (doesPageHaveRevisions(doc)) {
                     NodeList revisionsList = doc.getElementsByTagName("rev");
                     for (int i = 0; i < revisionsList.getLength(); i++) {
                         Element tempElement = (Element) revisionsList.item(i);
-                        revisions[i][0] = tempElement.getAttribute("user");
-                        revisions[i][1] = tempElement.getAttribute("timestamp");
-                        revisions[i][2] = tempElement.getAttribute("comment");
+                        String user = tempElement.getAttribute("user");
+                        String timestamp = tempElement.getAttribute("timestamp");
+                        String comment = tempElement.getAttribute("comment");
+                        Revisions rev = new Revisions();
+                        rev.setInformation(user, comment, timestamp);
+                        revisionsList.
                     }
                     loadRevisionsToGUI();
                 }
