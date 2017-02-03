@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,7 +19,7 @@ public class Controller {
     @FXML
     public void loadURL() {
         String URLStart = "https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=";
-        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4";
+        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4&redirects"; //handle redirects
         String search = searchField.getText();
         search = search.replace(" ", "_");
         search = URLStart + search + URLEnd;
@@ -27,7 +28,7 @@ public class Controller {
             System.out.println(url);
             parseXMLFile(url);
         }
-        catch(IOException e) {
+        catch(IOException e) { //Handle exceptions better
             throw new RuntimeException(e);
         }
     }
@@ -37,24 +38,35 @@ public class Controller {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
-            NodeList revisionsList = doc.getElementsByTagName("rev");
-            for (int i = 0; i < revisionsList.getLength(); i++) {
-                Element tempElement = (Element) revisionsList.item(i);
-                revisions[i][0] = tempElement.getAttribute("user");
-                revisions[i][1] = tempElement.getAttribute("timestamp");
-                revisions[i][2] = tempElement.getAttribute("comment");
+            if (doesPageExist(doc)) {
+                NodeList revisionsList = doc.getElementsByTagName("rev");
+                for (int i = 0; i < revisionsList.getLength(); i++) {
+                    Element tempElement = (Element) revisionsList.item(i);
+                    revisions[i][0] = tempElement.getAttribute("user");
+                    revisions[i][1] = tempElement.getAttribute("timestamp");
+                    revisions[i][2] = tempElement.getAttribute("comment");
+                }
+                loadRevisionsToGUI();
             }
-//            for (int i = 0; i < 4; i++)
-//            {
-//                for (int j = 0; j < 3; j++)
-//                {
-//                    System.out.print(revisions[i][j]);
-//                }
-//                System.out.println("");
-//            }
         }
         catch(Exception e) { //Change to actually handle correct Exceptions. Perhaps with a popup window for 'server down'?
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean doesPageExist(Document doc)
+    {
+        Node check = doc.getElementById("page");
+        Element _idx = (Element) check;
+        if (_idx.getAttribute("_idx") == "-1")
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void loadRevisionsToGUI()
+    {
+
     }
 }
