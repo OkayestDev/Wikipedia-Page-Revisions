@@ -2,23 +2,15 @@ package edu.bsu.cs222.wikipagerevisionstests;
 
 import edu.bsu.cs222.wikipagerevisions.*;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class controllerTest {
 
@@ -50,7 +42,17 @@ public class controllerTest {
     @Test
     public void testURLtoDoc()
     {
-
+        try {
+            URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=gasdf&rvprop=timestamp|comment|user&rvlimit=4&redirects");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(url.openStream());
+            Document testDoc = test.URLtoDoc(url);
+            Assert.assertTrue(doc.toString().equals(testDoc.toString()));
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -60,7 +62,6 @@ public class controllerTest {
         rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z", "/* See also */ + * [[Soup and sandwich]]");
         String parsedRevisions = test.parseRevisions(doc).get(0).toString();
         String testString = rev.toString();
-        System.out.println(testString + "\n" + parsedRevisions);
         Assert.assertTrue(testString.equals(parsedRevisions));
     }
 
