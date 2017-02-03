@@ -6,8 +6,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,40 +18,60 @@ public class Controller {
     private TextField searchField;
     private String revisions[][] = new String[4][3]; //hold revision authors [][username, timestamp, comment], is there 4 everytime
 
-    @FXML
-    public void loadURL() {
+    public void handleButtonPress()
+    {
+        loadURL(searchField.getText());
+    }
+
+    public URL loadURL(String search) {
         String URLStart = "https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=";
-        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4&redirects"; //handle redirects
-        String search = searchField.getText();
+        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4&redirects";
         search = search.replace(" ", "_");
         search = URLStart + search + URLEnd;
         try {
-            URL url = new URL(search);
-            System.out.println(url);
-            parseXMLFile(url);
+            return new URL(search);
         }
         catch(IOException e) { //Handle exceptions better
             throw new RuntimeException(e);
         }
     }
 
-    public void parseXMLFile(URL url) {
+    public Document URLtoDoc(URL url)
+    {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
+            return doc;
+        }
+        catch(SAXException e) {
+            System.out.println("Check internet connection or URL does not exist");
+        }
+        catch(IOException e) {
+            System.out.println("A problem occured when retrieving URL");
+        }
+        catch(ParserConfigurationException e){
+            System.out.println("URL is not in XML format");
+        }
+        return null;
+    }
+
+    public void parseXMLFile(Document doc) {
+        try {
             if (doesPageExist(doc)) {
-                NodeList revisionsList = doc.getElementsByTagName("rev");
-                for (int i = 0; i < revisionsList.getLength(); i++) {
-                    Element tempElement = (Element) revisionsList.item(i);
-                    revisions[i][0] = tempElement.getAttribute("user");
-                    revisions[i][1] = tempElement.getAttribute("timestamp");
-                    revisions[i][2] = tempElement.getAttribute("comment");
+                if (doesPageHaveRevisions(doc)) {
+                    NodeList revisionsList = doc.getElementsByTagName("rev");
+                    for (int i = 0; i < revisionsList.getLength(); i++) {
+                        Element tempElement = (Element) revisionsList.item(i);
+                        revisions[i][0] = tempElement.getAttribute("user");
+                        revisions[i][1] = tempElement.getAttribute("timestamp");
+                        revisions[i][2] = tempElement.getAttribute("comment");
+                    }
+                    loadRevisionsToGUI();
                 }
-                loadRevisionsToGUI();
             }
         }
-        catch(Exception e) { //Change to actually handle correct Exceptions. Perhaps with a popup window for 'server down'?
+        catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -57,12 +79,21 @@ public class Controller {
     public boolean doesPageExist(Document doc)
     {
         Node check = doc.getElementById("page");
-        Element _idx = (Element) check;
-        if (_idx.getAttribute("_idx") == "-1")
-        {
-            return false;
-        }
-        return true;
+        Element idx = (Element) check;
+        return idx.getAttribute("_idx").equals("-1");
+    }
+
+    public boolean doesPageHaveRevisions(Document doc)
+    {
+        Node check = doc.getElementById("rev");
+        Element exists = (Element) check;
+        return exists.hasAttribute("user");
+    }
+
+    public boolean isRedirection(Document doc)
+    {
+        Node check = doc.getElementById("redirects");
+        return check != null;
     }
 
     public void loadRevisionsToGUI()

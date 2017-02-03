@@ -14,6 +14,8 @@ public class Main extends Application {
         primaryStage.setTitle("Wikipedia Page Revisions");
         primaryStage.setScene(new Scene(root, 500, 500));
         primaryStage.show();
+
+
     }
 
 

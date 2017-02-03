@@ -8,4 +8,8 @@ public class Revisions {
     String user;
     String timestamp; //localize to my timezone
 
+    public void localizeTimestamp()
+    {
+
+    }
 }
