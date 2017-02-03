@@ -1,1 +1,8 @@
 Add exception handling to GUI
+
+**Task List**
+Build base GUI
+Get the imput from user
+Load url into a xml file
+Parse xml file
+Return result to GUI
