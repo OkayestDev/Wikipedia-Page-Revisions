@@ -78,22 +78,21 @@ public class Controller {
 
     public boolean doesPageExist(Document doc)
     {
-        Node check = doc.getElementById("page");
-        Element idx = (Element) check;
-        return idx.getAttribute("_idx").equals("-1");
+        NodeList check = doc.getElementsByTagName("page");
+        Element idx = (Element) check.item(0);
+        return !(idx.getAttribute("_idx").equals("-1"));
     }
 
     public boolean doesPageHaveRevisions(Document doc)
     {
-        Node check = doc.getElementById("rev");
-        Element exists = (Element) check;
-        return exists.hasAttribute("user");
+        NodeList check = doc.getElementsByTagName("rev");
+        return check.getLength() >= 1;
     }
 
     public boolean isRedirection(Document doc)
     {
-        Node check = doc.getElementById("redirects");
-        return check != null;
+        NodeList check = doc.getElementsByTagName("redirects");
+        return check.getLength() >= 1;
     }
 
     public void loadRevisionsToGUI()
