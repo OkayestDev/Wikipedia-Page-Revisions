@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class Controller {
     @FXML
@@ -26,22 +25,20 @@ public class Controller {
         try {
             URL url = new URL(search);
             System.out.println(url);
-            readXMLFile(url);
+            parseXMLFile(url);
         }
         catch(IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void readXMLFile(URL url) {
-        int count = 0;
+    public void parseXMLFile(URL url) {
         try {
-            URLConnection connection = url.openConnection();
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
             NodeList revisionsList = doc.getElementsByTagName("rev");
-            for (int i = 0; i < revisionsList.getLength(); i++) { //this actually gets the correct length
+            for (int i = 0; i < revisionsList.getLength(); i++) {
                 Element tempElement = (Element) revisionsList.item(i);
                 revisions[i][0] = tempElement.getAttribute("user");
                 revisions[i][1] = tempElement.getAttribute("timestamp");
@@ -55,7 +52,7 @@ public class Controller {
 //                }
 //                System.out.println("");
 //            }
-    }
+        }
         catch(Exception e) { //Change to actually handle correct Exceptions. Perhaps with a popup window for 'server down'?
             throw new RuntimeException(e);
         }
