@@ -10,9 +10,9 @@
 <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="6.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
     <TableView fx:id="listOfRevisions" HBox.hgrow="ALWAYS">
         <columns>
-            <TableColumn text="User" />
-            <TableColumn text="Timestamp" />
-            <TableColumn text="Comment" />
+            <TableColumn editable="false" sortable="false" text="User" />
+            <TableColumn editable="false" sortable="false" text="Timestamp" />
+            <TableColumn editable="false" sortable="false" text="Comment" />
         </columns>
     </TableView>
         <TextField fx:id="searchField" alignment="TOP_LEFT" promptText="Wiki page to search" />
