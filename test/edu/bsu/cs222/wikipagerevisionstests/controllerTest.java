@@ -9,7 +9,6 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 public class controllerTest {
@@ -57,7 +56,7 @@ public class controllerTest {
 
     @Test
     public void testParseRevisions() {
-        Document doc = openXMLFile("test-assests/Soup.xml");
+        Document doc = openXMLFile("test-assets/Soup.xml");
         Revisions rev = new Revisions();
         rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z", "/* See also */ + * [[Soup and sandwich]]");
         String parsedRevisions = test.parseRevisions(doc).get(0).toString();
@@ -68,37 +67,45 @@ public class controllerTest {
 
     @Test
     public void testDoesPageExistTrue() {
-        Document doc = openXMLFile("test-assests/Soup.xml");
+        Document doc = openXMLFile("test-assets/Soup.xml");
         Assert.assertTrue(test.doesPageExist(doc));
     }
 
     @Test
     public void testDoesPageExistFalse() {
-        Document doc = openXMLFile("test-assests/pageDoesNotExist.xml");
+        Document doc = openXMLFile("test-assets/pageDoesNotExist.xml");
         Assert.assertFalse(test.doesPageExist(doc));
     }
 
     @Test
     public void testDoesPageHaveRevisionsTrue() {
-        Document doc = openXMLFile("test-assests/Soup.xml");
+        Document doc = openXMLFile("test-assets/Soup.xml");
         Assert.assertTrue(test.doesPageHaveRevisions(doc));
     }
 
     @Test
     public void testDoesPageHaveRevisionsFalse() {
-        Document doc = openXMLFile("test-assests/pageDoesNotExist.xml");
+        Document doc = openXMLFile("test-assets/pageDoesNotExist.xml");
         Assert.assertFalse(test.doesPageHaveRevisions(doc));
     }
 
     @Test
     public void testIsRedirectionTrue(){
-        Document doc = openXMLFile("test-assests/redirection.xml");
+        Document doc = openXMLFile("test-assets/redirection.xml");
         Assert.assertTrue(test.isRedirection(doc));
     }
 
     @Test
     public void testIsRedirectionFalse(){
-        Document doc = openXMLFile("test-assests/Soup.xml");
+        Document doc = openXMLFile("test-assets/Soup.xml");
         Assert.assertFalse(test.isRedirection(doc));
+    }
+
+    @Test
+    public void testGetRedirection()
+    {
+        Document doc = openXMLFile("test-assets/redirection.xml");
+        String check = "Barack Obama";
+        Assert.assertTrue(check.equals(test.getRedirection(doc)));
     }
 }

@@ -7,7 +7,7 @@ public class Revisions {
     private String user;
     private String timestamp; //localize to my timezone
 
-    public void setInformation(String user, String comment, String timestamp)
+    public void setInformation(String user, String timestamp, String comment)
     {
         this.user = user;
         this.comment = comment;

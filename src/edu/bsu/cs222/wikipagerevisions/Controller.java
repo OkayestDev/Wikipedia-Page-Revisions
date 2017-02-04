@@ -100,6 +100,12 @@ public class Controller {
         return check.getLength() >= 1;
     }
 
+    public String getRedirection(Document doc) {
+        NodeList redirection = doc.getElementsByTagName("r");
+        Element redirect = (Element) redirection.item(0);
+        return redirect.getAttribute("to");
+    }
+
     public void loadRevisionsToGUI()
     {
 
