@@ -3,7 +3,7 @@ package edu.bsu.cs222.wikipagerevisions;
 import java.util.Calendar;
 
 public class Revisions {
-    private String comment;
+    private String comment; //not required
     private String user;
     private String timestamp; //localize to my timezone
 
@@ -20,9 +20,16 @@ public class Revisions {
         return "";
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "User: " + user + " Timestamp: " + timestamp + " Comment: " + comment;
     }
 }

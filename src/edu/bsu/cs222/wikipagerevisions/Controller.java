@@ -2,6 +2,7 @@ package edu.bsu.cs222.wikipagerevisions;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -12,24 +13,29 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Controller {
     @FXML
     private TextField searchField;
-    private String revisions[][] = new String[4][3]; //hold revision authors [][username, timestamp, comment], is there 4 everytime
+    @FXML
+    private TableColumn userColumn;
+    @FXML
+    private TableColumn timestampColumn;
 
-    public void handleButtonPress()
+    public URL handleButtonPress()
     {
-        loadURL(searchField.getText());
+        return loadURL(searchField.getText());
     }
 
     public URL loadURL(String search) {
         String URLStart = "https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=";
-        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4&redirects";
+        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=30&redirects";
         search = search.replace(" ", "_");
         search = URLStart + search + URLEnd;
         try {
+            URLtoDoc(new URL(search)); //this is probably not how to do it
             return new URL(search);
         }
         catch(IOException e) { //Handle exceptions better
@@ -43,6 +49,7 @@ public class Controller {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
+            loadRevisionsToGUI(doc); //this is probably not how to do it
             return doc;
         }
         catch(SAXException e) {
@@ -58,7 +65,7 @@ public class Controller {
     }
 
     public List<Revisions> parseRevisions(Document doc) {
-        List<Revisions> revisionsList = new ArrayList<Revisions>();
+        List<Revisions> revisionsList = new ArrayList<>();
         try {
             if (doesPageExist(doc)) {
                 if (doesPageHaveRevisions(doc)) {
@@ -106,8 +113,14 @@ public class Controller {
         return redirect.getAttribute("to");
     }
 
-    public void loadRevisionsToGUI()
+    public void loadRevisionsToGUI(Document doc)
     {
-
+        Iterator<Revisions> iter = parseRevisions(doc).iterator();
+        while(iter.hasNext())
+        {
+            Revisions rev = iter.next();
+//            userColumn.setText(rev.getUser());
+//            timestampColumn.setText(rev.getTimestamp());
+        }
     }
 }

@@ -42,7 +42,7 @@ public class controllerTest {
     public void testURLtoDoc()
     {
         try {
-            URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=gasdf&rvprop=timestamp|comment|user&rvlimit=4&redirects");
+            URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=gasdf&rvprop=timestamp|comment|user&rvlimit=30&redirects");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(url.openStream());
