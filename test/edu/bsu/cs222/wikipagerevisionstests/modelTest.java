@@ -11,10 +11,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.net.URL;
 
-public class controllerTest {
-
+public class modelTest {
     @FXML
-    private Controller test = new Controller();
+    private Model test = new Model();
 
     private Document openXMLFile(String fileName) {
         try {

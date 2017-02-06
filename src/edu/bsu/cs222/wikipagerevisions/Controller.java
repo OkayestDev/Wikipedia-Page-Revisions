@@ -28,7 +28,7 @@ public class Controller {
     private List<Revisions> revisionsList = new ArrayList<>();
 
     public void handleButtonPress() {
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<Void>() { //starts a thread?
             @Override
             protected Void call() throws Exception {
                 URL url = model.loadURL(searchField.getText());
@@ -43,11 +43,14 @@ public class Controller {
     public void loadRevisionsToGUI()
     {
         Iterator<Revisions> iter = revisionsList.iterator();
+        int count = 0;
         while(iter.hasNext())
         {
             Revisions rev = iter.next();
             userColumn.setText(rev.getUser());
             timestampColumn.setText(rev.getTimestamp());
+            count++;
         }
+        System.out.println(count);
     }
 }
