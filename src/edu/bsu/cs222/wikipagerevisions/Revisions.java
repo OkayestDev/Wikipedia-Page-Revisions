@@ -11,7 +11,7 @@ public class Revisions {
 
     private String localizeTimestamp(String timestamp) {
         //Finish this method, need to change EST to UTC (Zulu)
-        return "localize";
+        return timestamp;
     }
 
     public String getUser() {

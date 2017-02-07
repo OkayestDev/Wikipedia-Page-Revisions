@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.Cell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.w3c.dom.Document;
 import java.net.URL;
@@ -29,17 +28,25 @@ public class Controller {
 
     @FXML
     public void handleButtonPress() {
-        //executor.execute(new Runnable() {
-          //      @Override
-                //public void run() {
+        executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    clear();
                     URL url = model.loadURL(searchField.getText());
                     Document doc = model.URLtoDoc(url);
                     revisionsList = model.parseRevisions(doc);
                     loadRevisionsToGUI();
-            //    }
-            //});
-          //  {
-        //}
+                }
+            });
+            {
+        }
+    }
+
+    @FXML
+    public void clear() {
+        for(int i = 0; i < revisionsTable.getItems().size(); i++) {
+            revisionsTable.getItems().clear();
+        }
     }
 
     @FXML
