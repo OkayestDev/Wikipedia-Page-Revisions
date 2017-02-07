@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.HBox?>
 
 <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="6.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
-   <TableView prefHeight="690.0" prefWidth="500.0">
+   <TableView fx:id="revisionsTable" prefHeight="690.0" prefWidth="587.0">
      <columns>
-       <TableColumn id="userColumn" prefWidth="300.0" text="User" />
-       <TableColumn id="timestampColumn" prefWidth="288.0" text="Timestamp" />
+       <TableColumn fx:id="userColumn" prefWidth="300.0" text="User" />
+       <TableColumn fx:id="timestampColumn" prefWidth="288.0" text="Timestamp" />
      </columns>
    </TableView>
         <TextField fx:id="searchField" alignment="TOP_LEFT" promptText="Wiki page to search" />

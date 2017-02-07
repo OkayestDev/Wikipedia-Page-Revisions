@@ -52,18 +52,15 @@ public class Model {
     public List<Revisions> parseRevisions(Document doc) {
         List<Revisions> revisionsList = new ArrayList<>();
         try {
-            if (doesPageExist(doc)) {
-                if (doesPageHaveRevisions(doc)) {
-                    NodeList numberOfRevisions = doc.getElementsByTagName("rev");
-                    for (int i = 0; i < numberOfRevisions.getLength(); i++) {
-                        Element tempElement = (Element) numberOfRevisions.item(i);
-                        String user = tempElement.getAttribute("user");
-                        String timestamp = tempElement.getAttribute("timestamp");
-                        String comment = tempElement.getAttribute("comment");
-                        Revisions rev = new Revisions();
-                        rev.setInformation(user, timestamp, comment);
-                        revisionsList.add(rev);
-                    }
+            if (doesPageExist(doc) && doesPageHaveRevisions(doc)) {
+                NodeList numberOfRevisions = doc.getElementsByTagName("rev");
+                for (int i = 0; i < numberOfRevisions.getLength(); i++) {
+                    Element tempElement = (Element) numberOfRevisions.item(i);
+                    String user = tempElement.getAttribute("user");
+                    String timestamp = tempElement.getAttribute("timestamp");
+                    Revisions rev = new Revisions();
+                    rev.setInformation(user, timestamp);
+                    revisionsList.add(rev);
                 }
             }
         }

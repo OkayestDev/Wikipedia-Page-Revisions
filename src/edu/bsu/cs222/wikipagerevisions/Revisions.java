@@ -1,23 +1,17 @@
 package edu.bsu.cs222.wikipagerevisions;
 
-import java.util.Calendar;
-
 public class Revisions {
-    private String comment; //not required
     private String user;
     private String timestamp; //localize to my timezone
 
-    public void setInformation(String user, String timestamp, String comment)
-    {
+    public void setInformation(String user, String timestamp) {
         this.user = user;
-        this.comment = comment;
         this.timestamp = localizeTimestamp(timestamp);
     }
 
-    private String localizeTimestamp(String timestamp)
-    {
+    private String localizeTimestamp(String timestamp) {
         //Finish this method, need to change EST to UTC (Zulu)
-        return "";
+        return "localize";
     }
 
     public String getUser() {
@@ -30,6 +24,6 @@ public class Revisions {
 
     @Override
     public String toString() {
-        return "User: " + user + " Timestamp: " + timestamp + " Comment: " + comment;
+        return "User: " + user + " Timestamp: " + timestamp;
     }
 }

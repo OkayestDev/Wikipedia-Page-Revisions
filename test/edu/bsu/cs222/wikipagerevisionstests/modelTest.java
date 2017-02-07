@@ -57,7 +57,7 @@ public class modelTest {
     public void testParseRevisions() {
         Document doc = openXMLFile("test-assets/Soup.xml");
         Revisions rev = new Revisions();
-        rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z", "/* See also */ + * [[Soup and sandwich]]");
+        rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z");
         String parsedRevisions = test.parseRevisions(doc).get(0).toString();
         String testString = rev.toString();
         Assert.assertTrue(testString.equals(parsedRevisions));
