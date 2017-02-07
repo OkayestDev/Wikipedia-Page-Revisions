@@ -1,5 +1,6 @@
 package edu.bsu.cs222.wikipagerevisions;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,8 +28,10 @@ public class Controller {
     private final Executor executor = Executors.newSingleThreadExecutor();
 
     @FXML
-    public void handleButtonPress() {
-        executor.execute(new Runnable() {
+    public void handleSearchButtonPress() {
+        if (!searchField.getText().equals("")) {
+            timestampColumn.setText("Timestamp");
+            executor.execute(new Runnable() {
                 @Override
                 public void run() {
                     clear();
@@ -39,19 +42,22 @@ public class Controller {
                 }
             });
             {
+            }
         }
     }
 
     @FXML
+    public void handleUserCountButton() {
+        timestampColumn.setText("Revision Count");
+    }
+
     public void clear() {
-        for(int i = 0; i < revisionsTable.getItems().size(); i++) {
-            revisionsTable.getItems().clear();
-        }
+        revisionsTable.getItems().removeAll(revisionsList);
+        model.clear();
     }
 
     @FXML
-    public void loadRevisionsToGUI()
-    {
+    public void loadRevisionsToGUI() {
         Iterator<Revisions> iter = revisionsList.iterator();
         while(iter.hasNext()) {
             Revisions rev = iter.next();
