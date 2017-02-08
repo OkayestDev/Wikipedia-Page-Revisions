@@ -70,11 +70,11 @@ public class Controller {
     private void loadRevisionsToGUI() {
         Iterator<Revisions> iter = revisionsList.iterator();
         hasBeenSearched = true;
+        userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
+        timestampColumn.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         while(iter.hasNext()) {
             Revisions rev = iter.next();
             revisionsTable.getItems().add(rev);
-            userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
-            timestampColumn.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         }
     }
 
