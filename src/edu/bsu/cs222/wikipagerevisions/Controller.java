@@ -43,15 +43,12 @@ public class Controller {
 
     public void executeModel() {
         URL url = model.loadURL(searchField.getText());
-        if (url != null) {
+        if (handleBadConnectionOrURL(url)) {
             Document doc = model.URLtoDoc(url);
             revisionsList = model.parseRevisions(doc);
             handleRedirection(doc);
             handlePageDoesNotExist(doc);
             loadRevisionsToGUI();
-        }
-        else {
-            handleBadConnectionOrURL();
         }
     }
 
@@ -99,7 +96,14 @@ public class Controller {
         }
     }
 
-    private void handleBadConnectionOrURL() {
-        Notify.setText("Check Internet Connection or URL");
+    private boolean handleBadConnectionOrURL(URL url) {
+        try {
+            url.openConnection();
+            return true;
+        }
+        catch(Exception e) {
+            Notify.setText("Check Internet Connection or URL");
+            return false;
+        }
     }
 }

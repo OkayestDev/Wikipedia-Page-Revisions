@@ -3,7 +3,6 @@ package edu.bsu.cs222.wikipagerevisions;
 public class Revisions {
     private String user;
     private String timestamp;
-    private boolean unique = false;
 
     public Revisions(String user, String timestamp) {
         this.user = user;
@@ -11,7 +10,7 @@ public class Revisions {
     }
 
     private String localizeTimestamp(String timestamp) {
-        //Finish this method, need to change EST to UTC (Zulu)
+        //Finish this method, need to change UTC (ZULU)to EST
         return timestamp;
     }
 
