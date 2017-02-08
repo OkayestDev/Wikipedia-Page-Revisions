@@ -12,8 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class Controller {
     @FXML
@@ -35,17 +33,14 @@ public class Controller {
     public void handleSearchButton() {
         if (!searchField.getText().equals("")) {
             timestampColumn.setText("Timestamp");
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    clear();
-                    model.clear();
-                    URL url = model.loadURL(searchField.getText());
-                    Document doc = model.URLtoDoc(url);
-                    revisionsList = model.parseRevisions(doc);
-                    handleRedirection(doc);
-                    loadRevisionsToGUI();
-                }
+            Platform.runLater(() -> {
+                clear();
+                model.clear();
+                URL url = model.loadURL(searchField.getText());
+                Document doc = model.URLtoDoc(url);
+                revisionsList = model.parseRevisions(doc);
+                handleRedirection(doc);
+                loadRevisionsToGUI();
             });
             {
             }
@@ -56,17 +51,15 @@ public class Controller {
     public void handleUserCountButton() {
         if (hasBeenSearched) {
             timestampColumn.setText("Revision Count");
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    revisionsTable.getItems().removeAll(revisionsList);
-                    loadUserCountsToGUI();
-                }
+            Platform.runLater(() -> {
+                revisionsTable.getItems().removeAll(revisionsList);
+                loadUserCountsToGUI();
             });
         }
     }
 
     @FXML
-    public void loadRevisionsToGUI() {
+    private void loadRevisionsToGUI() {
         Iterator<Revisions> iter = revisionsList.iterator();
         hasBeenSearched = true;
         while(iter.hasNext()) {
@@ -77,16 +70,16 @@ public class Controller {
         }
     }
 
-    public void loadUserCountsToGUI() {
+    private void loadUserCountsToGUI() {
         Iterator<Revisions> iter = revisionsList.iterator();
     }
 
-    public void clear() {
+    private void clear() {
         revisionsTable.getItems().removeAll(revisionsList);
         redirectionNotify.setText("");
     }
 
-    public void handleRedirection(Document doc){
+    private void handleRedirection(Document doc){
         if (model.isRedirection(doc)) {
             redirectionNotify.setText(model.getRedirection(doc));
         }

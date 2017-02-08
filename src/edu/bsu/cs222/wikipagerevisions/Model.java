@@ -37,8 +37,7 @@ public class Model {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(url.openStream());
-            return doc;
+            return builder.parse(url.openStream());
         }
         catch(SAXException e) {
             System.out.println("Check internet connection or URL does not exist");
@@ -94,7 +93,6 @@ public class Model {
     public String getRedirection(Document doc) {
         NodeList redirection = doc.getElementsByTagName("r");
         Element temp = (Element) redirection.item(0);
-        String result = "Redirected: " + temp.getAttribute("from") + " to " + temp.getAttribute("to");
-        return result;
+        return "Redirected: " + temp.getAttribute("from") + " to " + temp.getAttribute("to");
     }
 }
