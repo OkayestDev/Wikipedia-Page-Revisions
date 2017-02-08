@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="6.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
-   <TableView fx:id="revisionsTable" prefHeight="690.0" prefWidth="587.0">
-     <columns>
-       <TableColumn fx:id="userColumn" prefWidth="300.0" text="User" />
-       <TableColumn fx:id="timestampColumn" prefWidth="288.0" text="Timestamp" />
-     </columns>
-   </TableView>
-        <TextField fx:id="searchField" alignment="TOP_LEFT" promptText="Wiki page to search" />
-        <Button mnemonicParsing="false" onAction="#handleButtonPress" text="Search" />
-    <padding>
-        <Insets top="10.0" />
-    </padding>
-</HBox>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="6.0">
+      <Label fx:id="redirectionNotify" />
+            <TextField fx:id="searchField" />
+            <Button mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
+            <Button mnemonicParsing="false" onAction="#handleUserCountButton" text="User Count" />
+      </HBox>
+      <TableView fx:id="revisionsTable" prefHeight="377.0" prefWidth="606.0" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="userColumn" minWidth="100.0" prefWidth="403.0" text="User" />
+          <TableColumn fx:id="timestampColumn" minWidth="100.0" prefWidth="396.0" text="Timestamp" />
+        </columns>
+      </TableView>
+</VBox>

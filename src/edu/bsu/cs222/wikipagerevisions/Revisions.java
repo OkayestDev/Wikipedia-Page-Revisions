@@ -3,8 +3,9 @@ package edu.bsu.cs222.wikipagerevisions;
 public class Revisions {
     private String user;
     private String timestamp; //localize to my timezone
+    private boolean unique = false;
 
-    public void setInformation(String user, String timestamp) {
+    public Revisions(String user, String timestamp) {
         this.user = user;
         this.timestamp = localizeTimestamp(timestamp);
     }

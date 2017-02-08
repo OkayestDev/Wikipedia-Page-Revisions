@@ -1,7 +1,8 @@
 package edu.bsu.cs222.wikipagerevisions;
 
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
@@ -23,21 +24,26 @@ public class Controller {
     private TableColumn<Revisions, String> timestampColumn;
     @FXML
     private TableView<Revisions> revisionsTable;
+    @FXML
+    private Label redirectionNotify;
+
     private Model model = new Model();
     private List<Revisions> revisionsList = new ArrayList<>();
-    private final Executor executor = Executors.newSingleThreadExecutor();
+    private boolean hasBeenSearched = false;
 
     @FXML
-    public void handleSearchButtonPress() {
+    public void handleSearchButton() {
         if (!searchField.getText().equals("")) {
             timestampColumn.setText("Timestamp");
-            executor.execute(new Runnable() {
+            Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     clear();
+                    model.clear();
                     URL url = model.loadURL(searchField.getText());
                     Document doc = model.URLtoDoc(url);
                     revisionsList = model.parseRevisions(doc);
+                    handleRedirection(doc);
                     loadRevisionsToGUI();
                 }
             });
@@ -48,22 +54,41 @@ public class Controller {
 
     @FXML
     public void handleUserCountButton() {
-        timestampColumn.setText("Revision Count");
-    }
-
-    public void clear() {
-        revisionsTable.getItems().removeAll(revisionsList);
-        model.clear();
+        if (hasBeenSearched) {
+            timestampColumn.setText("Revision Count");
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    revisionsTable.getItems().removeAll(revisionsList);
+                    loadUserCountsToGUI();
+                }
+            });
+        }
     }
 
     @FXML
     public void loadRevisionsToGUI() {
         Iterator<Revisions> iter = revisionsList.iterator();
+        hasBeenSearched = true;
         while(iter.hasNext()) {
             Revisions rev = iter.next();
             revisionsTable.getItems().add(rev);
             userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
             timestampColumn.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        }
+    }
+
+    public void loadUserCountsToGUI() {
+        Iterator<Revisions> iter = revisionsList.iterator();
+    }
+
+    public void clear() {
+        revisionsTable.getItems().removeAll(revisionsList);
+        redirectionNotify.setText("");
+    }
+
+    public void handleRedirection(Document doc){
+        if (model.isRedirection(doc)) {
+            redirectionNotify.setText(model.getRedirection(doc));
         }
     }
 }

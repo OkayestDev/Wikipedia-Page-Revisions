@@ -2,6 +2,7 @@ package edu.bsu.cs222.wikipagerevisions;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
@@ -13,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
+    private List<Revisions> revisionsList = new ArrayList<>();
+
+    public void clear() {
+        revisionsList = new ArrayList<>();
+    }
+
     public URL loadURL(String search) {
         String URLStart = "https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=";
         String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=30&redirects";
@@ -26,8 +33,7 @@ public class Model {
         }
     }
 
-    public Document URLtoDoc(URL url)
-    {
+    public Document URLtoDoc(URL url) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -47,17 +53,11 @@ public class Model {
     }
 
     public List<Revisions> parseRevisions(Document doc) {
-        List<Revisions> revisionsList = new ArrayList<>();
         try {
             if (doesPageExist(doc) && doesPageHaveRevisions(doc)) {
                 NodeList numberOfRevisions = doc.getElementsByTagName("rev");
                 for (int i = 0; i < numberOfRevisions.getLength(); i++) {
-                    Element tempElement = (Element) numberOfRevisions.item(i);
-                    String user = tempElement.getAttribute("user");
-                    String timestamp = tempElement.getAttribute("timestamp");
-                    Revisions rev = new Revisions();
-                    rev.setInformation(user, timestamp);
-                    revisionsList.add(rev);
+                    addRevisionToList(numberOfRevisions.item(i));
                 }
             }
         }
@@ -67,28 +67,34 @@ public class Model {
         return revisionsList;
     }
 
-    public boolean doesPageExist(Document doc)
-    {
+    public void addRevisionToList(Node revision) {
+        Element temp = (Element) revision;
+        String user = temp.getAttribute("user");
+        String timestamp = temp.getAttribute("timestamp");
+        Revisions rev = new Revisions(user, timestamp);
+        revisionsList.add(rev);
+    }
+
+    public boolean doesPageExist(Document doc) {
         NodeList check = doc.getElementsByTagName("page");
         Element idx = (Element) check.item(0);
         return !(idx.getAttribute("_idx").equals("-1"));
     }
 
-    public boolean doesPageHaveRevisions(Document doc)
-    {
+    public boolean doesPageHaveRevisions(Document doc) {
         NodeList check = doc.getElementsByTagName("rev");
         return check.getLength() >= 1;
     }
 
-    public boolean isRedirection(Document doc)
-    {
+    public boolean isRedirection(Document doc) {
         NodeList check = doc.getElementsByTagName("redirects");
         return check.getLength() >= 1;
     }
 
     public String getRedirection(Document doc) {
         NodeList redirection = doc.getElementsByTagName("r");
-        Element redirect = (Element) redirection.item(0);
-        return redirect.getAttribute("to");
+        Element temp = (Element) redirection.item(0);
+        String result = "Redirected: " + temp.getAttribute("from") + " to " + temp.getAttribute("to");
+        return result;
     }
 }

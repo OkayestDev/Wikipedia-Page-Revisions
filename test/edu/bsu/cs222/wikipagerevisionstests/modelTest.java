@@ -31,7 +31,7 @@ public class modelTest {
     @Test
     public void testLoadURL() {
         String URLStart = "https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=";
-        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=4&redirects";
+        String URLEnd = "&rvprop=timestamp|comment|user&rvlimit=30&redirects";
         String search = "Soup";
         String URL = URLStart + search + URLEnd;
         Assert.assertEquals(URL, test.loadURL(search).toString());
@@ -56,13 +56,11 @@ public class modelTest {
     @Test
     public void testParseRevisions() {
         Document doc = openXMLFile("test-assets/Soup.xml");
-        Revisions rev = new Revisions();
-        rev.setInformation("Northamerica1000", "2016-12-23T16:25:19Z");
+        Revisions rev = new Revisions("Northamerica1000", "2016-12-23T16:25:19Z");
         String parsedRevisions = test.parseRevisions(doc).get(0).toString();
         String testString = rev.toString();
         Assert.assertTrue(testString.equals(parsedRevisions));
     }
-
 
     @Test
     public void testDoesPageExistTrue() {
