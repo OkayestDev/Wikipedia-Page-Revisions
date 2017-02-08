@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.wikipagerevisions.Controller">
-      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="6.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="6.0">
       <Label fx:id="redirectionNotify" />
             <TextField fx:id="searchField" />
             <Button mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
