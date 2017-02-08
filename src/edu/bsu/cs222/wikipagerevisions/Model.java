@@ -26,10 +26,11 @@ public class Model {
         search = search.replace(" ", "_");
         search = URLStart + search + URLEnd;
         try {
-
+            URL url = new URL(search);
+            url.openStream();
             return new URL(search);
         }
-        catch(IOException e) { //Handle exceptions better
+        catch(Exception e) {
             return null;
         }
     }

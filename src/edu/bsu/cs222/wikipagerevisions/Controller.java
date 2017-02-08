@@ -36,13 +36,22 @@ public class Controller {
             Platform.runLater(() -> {
                 clear();
                 model.clear();
-                URL url = model.loadURL(searchField.getText());
-                Document doc = model.URLtoDoc(url);
-                revisionsList = model.parseRevisions(doc);
-                handleRedirection(doc);
-                handlePageDoesNotExist(doc);
-                loadRevisionsToGUI();
+                executeModel();
             });
+        }
+    }
+
+    public void executeModel() {
+        URL url = model.loadURL(searchField.getText());
+        if (url != null) {
+            Document doc = model.URLtoDoc(url);
+            revisionsList = model.parseRevisions(doc);
+            handleRedirection(doc);
+            handlePageDoesNotExist(doc);
+            loadRevisionsToGUI();
+        }
+        else {
+            handleBadConnectionOrURL();
         }
     }
 
