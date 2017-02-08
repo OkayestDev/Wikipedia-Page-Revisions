@@ -2,7 +2,7 @@ package edu.bsu.cs222.wikipagerevisions;
 
 public class Revisions {
     private String user;
-    private String timestamp; //localize to my timezone
+    private String timestamp;
     private boolean unique = false;
 
     public Revisions(String user, String timestamp) {

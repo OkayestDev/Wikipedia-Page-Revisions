@@ -102,7 +102,7 @@ public class modelTest {
     public void testGetRedirection()
     {
         Document doc = openXMLFile("test-assets/redirection.xml");
-        String check = "Barack Obama";
+        String check = "Redirected: Obama to Barack Obama";
         Assert.assertTrue(check.equals(test.getRedirection(doc)));
     }
 }

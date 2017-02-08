@@ -23,7 +23,7 @@ public class Controller {
     @FXML
     private TableView<Revisions> revisionsTable;
     @FXML
-    private Label redirectionNotify;
+    private Label Notify;
 
     private Model model = new Model();
     private List<Revisions> revisionsList = new ArrayList<>();
@@ -40,10 +40,9 @@ public class Controller {
                 Document doc = model.URLtoDoc(url);
                 revisionsList = model.parseRevisions(doc);
                 handleRedirection(doc);
+                handlePageDoesNotExist(doc);
                 loadRevisionsToGUI();
             });
-            {
-            }
         }
     }
 
@@ -76,12 +75,22 @@ public class Controller {
 
     private void clear() {
         revisionsTable.getItems().removeAll(revisionsList);
-        redirectionNotify.setText("");
+        Notify.setText("");
     }
 
     private void handleRedirection(Document doc){
         if (model.isRedirection(doc)) {
-            redirectionNotify.setText(model.getRedirection(doc));
+            Notify.setText(model.getRedirection(doc));
         }
+    }
+
+    private void handlePageDoesNotExist(Document doc) {
+        if (!model.doesPageExist(doc)) {
+            Notify.setText("Page does not exist");
+        }
+    }
+
+    private void handleBadConnectionOrURL() {
+        Notify.setText("Check Internet Connection or URL");
     }
 }

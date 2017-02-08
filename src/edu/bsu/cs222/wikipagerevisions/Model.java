@@ -26,10 +26,11 @@ public class Model {
         search = search.replace(" ", "_");
         search = URLStart + search + URLEnd;
         try {
+
             return new URL(search);
         }
         catch(IOException e) { //Handle exceptions better
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
@@ -39,34 +40,22 @@ public class Model {
             DocumentBuilder builder = factory.newDocumentBuilder();
             return builder.parse(url.openStream());
         }
-        catch(SAXException e) {
-            System.out.println("Check internet connection or URL does not exist");
+        catch(Exception e) {
+            return null;
         }
-        catch(IOException e) {
-            System.out.println("A problem occured when retrieving URL");
-        }
-        catch(ParserConfigurationException e){
-            System.out.println("URL is not in XML format");
-        }
-        return null;
     }
 
     public List<Revisions> parseRevisions(Document doc) {
-        try {
-            if (doesPageExist(doc) && doesPageHaveRevisions(doc)) {
-                NodeList numberOfRevisions = doc.getElementsByTagName("rev");
-                for (int i = 0; i < numberOfRevisions.getLength(); i++) {
-                    addRevisionToList(numberOfRevisions.item(i));
-                }
+        if (doesPageExist(doc) && doesPageHaveRevisions(doc)) {
+            NodeList numberOfRevisions = doc.getElementsByTagName("rev");
+            for (int i = 0; i < numberOfRevisions.getLength(); i++) {
+                addRevisionToList(numberOfRevisions.item(i));
             }
-        }
-        catch(Exception e) {
-            throw new RuntimeException(e);
         }
         return revisionsList;
     }
 
-    public void addRevisionToList(Node revision) {
+    private void addRevisionToList(Node revision) {
         Element temp = (Element) revision;
         String user = temp.getAttribute("user");
         String timestamp = temp.getAttribute("timestamp");
@@ -91,8 +80,11 @@ public class Model {
     }
 
     public String getRedirection(Document doc) {
-        NodeList redirection = doc.getElementsByTagName("r");
-        Element temp = (Element) redirection.item(0);
-        return "Redirected: " + temp.getAttribute("from") + " to " + temp.getAttribute("to");
+        if (isRedirection(doc)) {
+            NodeList redirection = doc.getElementsByTagName("r");
+            Element temp = (Element) redirection.item(0);
+            return "Redirected: " + temp.getAttribute("from") + " to " + temp.getAttribute("to");
+        }
+        return "";
     }
 }
