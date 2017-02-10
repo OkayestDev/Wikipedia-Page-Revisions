@@ -50,7 +50,6 @@ public class Controller {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
                 clear();
-                System.out.println(model.getUniqueUserRevisionsList().toString());
                 loadListToGUI(model.getUniqueUserRevisionsList(), "RevisionsCount");
             });
         }
