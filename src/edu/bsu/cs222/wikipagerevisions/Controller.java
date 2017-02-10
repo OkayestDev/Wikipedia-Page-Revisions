@@ -23,7 +23,7 @@ public class Controller {
     @FXML
     private TableView<Revisions> revisionsTable;
     @FXML
-    private Label Notify;
+    private Label notify;
 
     private Model model = new Model();
     private boolean hasBeenSearched = false;
@@ -35,6 +35,7 @@ public class Controller {
             Platform.runLater(() -> {
                 clear();
                 model.clear();
+                notify.setText("");
                 hasBeenSearched = true;
                 model.executeModel(searchField.getText());
                 checkNotifications();
@@ -67,7 +68,6 @@ public class Controller {
     private void clear() {
         revisionsTable.getItems().removeAll(model.getRevisionsList());
         revisionsTable.getItems().removeAll(model.getUniqueUserRevisionsList());
-        Notify.setText("");
     }
 
     public void checkNotifications() {
@@ -82,19 +82,19 @@ public class Controller {
 
     private void handleRedirection(){
         if (model.isRedirection()) {
-            Notify.setText(model.getRedirection());
+            notify.setText(model.getRedirection());
         }
     }
 
     private void handlePageDoesNotExist() {
         if (!model.doesPageExist()) {
-            Notify.setText("Page does not exist");
+            notify.setText("Page does not exist");
         }
     }
 
     private boolean handleBadConnection() {
         if (!model.isGoodConnection()) {
-            Notify.setText("Page could not be Reached. Check internet connection");
+            notify.setText("Page could not be Reached. Check internet connection");
             return false;
         }
         return true;
