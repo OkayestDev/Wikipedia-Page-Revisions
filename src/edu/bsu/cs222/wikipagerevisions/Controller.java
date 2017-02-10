@@ -92,11 +92,9 @@ public class Controller {
         }
     }
 
-    private boolean handleBadConnection() {
+    private void handleBadConnection() {
         if (!model.isGoodConnection()) {
             notify.setText("Page could not be Reached. Check internet connection");
-            return false;
         }
-        return true;
     }
 }
