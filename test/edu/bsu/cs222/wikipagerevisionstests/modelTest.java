@@ -22,8 +22,7 @@ public class modelTest {
             Document doc = builder.parse(new File(fileName));
             return doc;
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -83,8 +82,7 @@ public class modelTest {
     }
 
     @Test
-    public void testGetRedirection()
-    {
+    public void testGetRedirection() {
         test.setDoc(openXMLFile("test-assets/redirection.xml"));
         String check = "Redirected: Obama to Barack Obama";
         Assert.assertTrue(check.equals(test.getRedirection()));

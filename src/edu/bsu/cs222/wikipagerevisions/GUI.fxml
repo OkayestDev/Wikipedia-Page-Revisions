@@ -17,7 +17,7 @@
          </font></Label>
             <TextField fx:id="searchField" />
             <Button mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
-            <Button mnemonicParsing="false" onAction="#handleUserCountButton" text="User Count" />
+            <Button mnemonicParsing="false" onAction="#handleRevisionCountButton" text="Revision Count" />
       </HBox>
       <TableView fx:id="revisionsTable" prefHeight="377.0" prefWidth="606.0" VBox.vgrow="ALWAYS">
         <columns>

@@ -7,10 +7,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.w3c.dom.Document;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Controller {
@@ -45,7 +41,7 @@ public class Controller {
     }
 
     @FXML
-    public void handleUserCountButton() {
+    public void handleRevisionCountButton() {
         if (hasBeenSearched) {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
