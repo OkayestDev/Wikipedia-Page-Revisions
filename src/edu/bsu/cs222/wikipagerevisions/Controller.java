@@ -26,7 +26,6 @@ public class Controller {
     private Label Notify;
 
     private Model model = new Model();
-    private List<Revisions> revisionsList = new ArrayList<>();
     private boolean hasBeenSearched = false;
 
     @FXML
@@ -36,19 +35,11 @@ public class Controller {
             Platform.runLater(() -> {
                 clear();
                 model.clear();
-                executeModel();
+                hasBeenSearched = true;
+                model.executeModel(searchField.getText());
+                checkNotifications();
+                loadListToGUI(model.getRevisionsList(), "timestamp");
             });
-        }
-    }
-
-    public void executeModel() {
-        URL url = model.loadURL(searchField.getText());
-        if (handleBadConnectionOrURL(url)) {
-            Document doc = model.URLtoDoc(url);
-            revisionsList = model.parseRevisions(doc);
-            handleRedirection(doc);
-            handlePageDoesNotExist(doc);
-            loadRevisionsToGUI();
         }
     }
 
@@ -57,53 +48,55 @@ public class Controller {
         if (hasBeenSearched) {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
-                revisionsTable.getItems().removeAll(revisionsList);
-                loadUserCountsToGUI();
+                clear();
+                System.out.println(model.getUniqueUserRevisionsList().toString());
+                loadListToGUI(model.getUniqueUserRevisionsList(), "RevisionsCount");
             });
         }
     }
 
     @FXML
-    private void loadRevisionsToGUI() {
-        Iterator<Revisions> iter = revisionsList.iterator();
-        hasBeenSearched = true;
+    private void loadListToGUI(List<Revisions> rev, String secondColumn) {
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
-        timestampColumn.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-        while(iter.hasNext()) {
-            Revisions rev = iter.next();
-            revisionsTable.getItems().add(rev);
+        timestampColumn.setCellValueFactory(new PropertyValueFactory<>(secondColumn));
+        for(Revisions temp: rev) {
+            revisionsTable.getItems().add(temp);
         }
-    }
-
-    private void loadUserCountsToGUI() {
-        Iterator<Revisions> iter = revisionsList.iterator();
     }
 
     private void clear() {
-        revisionsTable.getItems().removeAll(revisionsList);
+        revisionsTable.getItems().removeAll(model.getRevisionsList());
+        revisionsTable.getItems().removeAll(model.getUniqueUserRevisionsList());
         Notify.setText("");
     }
 
-    private void handleRedirection(Document doc){
-        if (model.isRedirection(doc)) {
-            Notify.setText(model.getRedirection(doc));
+    public void checkNotifications() {
+        if (model.isGoodConnection()) {
+            handleRedirection();
+            handlePageDoesNotExist();
+        }
+        else {
+            handleBadConnection();
         }
     }
 
-    private void handlePageDoesNotExist(Document doc) {
-        if (!model.doesPageExist(doc)) {
+    private void handleRedirection(){
+        if (model.isRedirection()) {
+            Notify.setText(model.getRedirection());
+        }
+    }
+
+    private void handlePageDoesNotExist() {
+        if (!model.doesPageExist()) {
             Notify.setText("Page does not exist");
         }
     }
 
-    private boolean handleBadConnectionOrURL(URL url) {
-        try {
-            url.openConnection();
-            return true;
-        }
-        catch(Exception e) {
-            Notify.setText("Check Internet Connection or URL");
+    private boolean handleBadConnection() {
+        if (!model.isGoodConnection()) {
+            Notify.setText("Page could not be Reached. Check internet connection");
             return false;
         }
+        return true;
     }
 }

@@ -38,71 +38,55 @@ public class modelTest {
     }
 
     @Test
-    public void testURLtoDoc()
-    {
-        try {
-            URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=xml&prop=revisions&titles=gasdf&rvprop=timestamp|comment|user&rvlimit=30&redirects");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(url.openStream());
-            Document testDoc = test.URLtoDoc(url);
-            Assert.assertTrue(doc.toString().equals(testDoc.toString()));
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Test
     public void testParseRevisions() {
-        Document doc = openXMLFile("test-assets/Soup.xml");
+        test.setDoc(openXMLFile("test-assets/Soup.xml"));
         Revisions rev = new Revisions("Northamerica1000", "2016-12-23T16:25:19Z");
-        String parsedRevisions = test.parseRevisions(doc).get(0).toString();
+        String parsedRevisions = test.parseRevisions().get(0).toString();
         String testString = rev.toString();
         Assert.assertTrue(testString.equals(parsedRevisions));
     }
 
     @Test
     public void testDoesPageExistTrue() {
-        Document doc = openXMLFile("test-assets/Soup.xml");
-        Assert.assertTrue(test.doesPageExist(doc));
+        test.setDoc(openXMLFile("test-assets/Soup.xml"));
+        Assert.assertTrue(test.doesPageExist());
     }
 
     @Test
     public void testDoesPageExistFalse() {
-        Document doc = openXMLFile("test-assets/pageDoesNotExist.xml");
-        Assert.assertFalse(test.doesPageExist(doc));
+        test.setDoc(openXMLFile("test-assets/pageDoesNotExist.xml"));
+        Assert.assertFalse(test.doesPageExist());
     }
 
     @Test
     public void testDoesPageHaveRevisionsTrue() {
-        Document doc = openXMLFile("test-assets/Soup.xml");
-        Assert.assertTrue(test.doesPageHaveRevisions(doc));
+        test.setDoc(openXMLFile("test-assets/Soup.xml"));
+        Assert.assertTrue(test.doesPageHaveRevisions());
     }
 
     @Test
     public void testDoesPageHaveRevisionsFalse() {
-        Document doc = openXMLFile("test-assets/pageDoesNotExist.xml");
-        Assert.assertFalse(test.doesPageHaveRevisions(doc));
+        test.setDoc(openXMLFile("test-assets/pageDoesNotExist.xml"));
+        Assert.assertFalse(test.doesPageHaveRevisions());
     }
 
     @Test
     public void testIsRedirectionTrue(){
-        Document doc = openXMLFile("test-assets/redirection.xml");
-        Assert.assertTrue(test.isRedirection(doc));
+        test.setDoc(openXMLFile("test-assets/redirection.xml"));
+        Assert.assertTrue(test.isRedirection());
     }
 
     @Test
     public void testIsRedirectionFalse(){
-        Document doc = openXMLFile("test-assets/Soup.xml");
-        Assert.assertFalse(test.isRedirection(doc));
+        test.setDoc(openXMLFile("test-assets/Soup.xml"));
+        Assert.assertFalse(test.isRedirection());
     }
 
     @Test
     public void testGetRedirection()
     {
-        Document doc = openXMLFile("test-assets/redirection.xml");
+        test.setDoc(openXMLFile("test-assets/redirection.xml"));
         String check = "Redirected: Obama to Barack Obama";
-        Assert.assertTrue(check.equals(test.getRedirection(doc)));
+        Assert.assertTrue(check.equals(test.getRedirection()));
     }
 }
