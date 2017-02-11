@@ -23,14 +23,13 @@ public class Revisions {
 
     private String localizeTimestamp(String timestamp) {
         try {
-            System.out.println(timestamp);
             TimeZone local = TimeZone.getDefault();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd\tHH:mm:ss");
-            Date d = dateFormatter.parse(timestamp);
+            Date revisionDate = dateFormatter.parse(timestamp);
             dateFormatter.setTimeZone(local);
             TimeZone.setDefault(local);
-            return dateFormatter.format(d);
+            return dateFormatter.format(revisionDate);
         }
         catch(Exception e) {
             e.printStackTrace();
