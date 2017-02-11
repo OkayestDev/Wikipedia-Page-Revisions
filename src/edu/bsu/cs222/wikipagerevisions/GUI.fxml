@@ -13,9 +13,9 @@
       <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="6.0">
       <Label fx:id="notify">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="12.0" />
          </font></Label>
-            <TextField fx:id="searchField" />
+            <TextField fx:id="searchField"/>
             <Button mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
             <Button mnemonicParsing="false" onAction="#handleRevisionCountButton" text="Revision Count" />
       </HBox>
