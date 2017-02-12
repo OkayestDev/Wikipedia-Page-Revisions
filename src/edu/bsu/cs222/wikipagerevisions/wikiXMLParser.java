@@ -2,7 +2,6 @@ package edu.bsu.cs222.wikipagerevisions;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,12 +14,14 @@ public class wikiXMLParser {
     private List<Revisions> uniqueUserRevisions = new ArrayList<>();
     private Document doc;
     private URL url;
+    private revisionsParser revParser = new revisionsParser();
 
     void wikiParser(String search) {
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
-            parseRevisions();
+            revisionsList = revParser.parseRevisions(doc);
+            uniqueUserRevisions = revParser.getUniqueUserRevisionsList();
         }
     }
 
@@ -55,47 +56,6 @@ public class wikiXMLParser {
         }
     }
 
-    public List<Revisions> parseRevisions() {
-        if (doesPageExist() && doesPageHaveRevisions()) {
-            NodeList numberOfRevisions = doc.getElementsByTagName("rev");
-            for (int i = 0; i < numberOfRevisions.getLength(); i++) {
-                addRevisionToList(numberOfRevisions.item(i));
-            }
-        }
-        return revisionsList;
-    }
-
-    private void addRevisionToList(Node revision) {
-        Element temp = (Element) revision;
-        String user = temp.getAttribute("user");
-        handleUniqueUsersRevisions(user);
-        String timestamp = temp.getAttribute("timestamp");
-        Revisions rev = new Revisions(user, timestamp);
-        revisionsList.add(rev);
-    }
-
-    private void handleUniqueUsersRevisions(String user) {
-        if (isUniqueUser(user)) {
-            uniqueUserRevisions.add(new Revisions(user, ""));
-        }
-        else {
-            for (Revisions rev : uniqueUserRevisions) {
-                if (rev.getUser().equals(user)) {
-                    rev.increaseRevisionsCount();
-                }
-            }
-        }
-    }
-
-    public boolean isUniqueUser(String user) {
-        for (Revisions rev: revisionsList) {
-            if (rev.getUser().equals(user)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean doesPageExist() {
         NodeList check = doc.getElementsByTagName("page");
         Element idx = (Element) check.item(0);
@@ -112,7 +72,7 @@ public class wikiXMLParser {
         return check.getLength() >= 1;
     }
 
-    public boolean isGoodConnection() {
+    boolean isGoodConnection() {
         try {
             url.openConnection();
             return true;
@@ -131,15 +91,15 @@ public class wikiXMLParser {
         return "";
     }
 
-    public List<Revisions> getRevisionsList() {
+    List<Revisions> getRevisionsList() {
         return revisionsList;
     }
 
-    public List<Revisions> getUniqueUserRevisionsList() {
+    List<Revisions> getUniqueUserRevisionsList() {
         return uniqueUserRevisions;
     }
 
-    //Test purposes only
+    //Below is for Test purposes only
     public void setDoc(Document doc) {
         this.doc = doc;
     }

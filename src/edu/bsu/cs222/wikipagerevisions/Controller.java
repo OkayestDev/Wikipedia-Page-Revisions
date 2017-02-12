@@ -20,8 +20,9 @@ public class Controller {
     private TableView<Revisions> revisionsTable;
     @FXML
     private Label notify;
-    private wikiXMLParser parser = new wikiXMLParser();
+    private wikiXMLParser wikiParser = new wikiXMLParser();
     private boolean hasBeenSearched = false;
+
 
     @FXML
     public void handleSearchButton() {
@@ -29,12 +30,12 @@ public class Controller {
             timestampColumn.setText("Timestamp");
             Platform.runLater(() -> {
                 clear();
-                parser.clear();
+                wikiParser.clear();
                 notify.setText("");
                 hasBeenSearched = true;
-                parser.wikiParser(searchField.getText());
+                wikiParser.wikiParser(searchField.getText());
                 checkNotifications();
-                loadListToGUI(parser.getRevisionsList(), "Timestamp");
+                loadListToGUI(wikiParser.getRevisionsList(), "Timestamp");
             });
         }
     }
@@ -45,7 +46,7 @@ public class Controller {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
                 clear();
-                loadListToGUI(parser.getUniqueUserRevisionsList(), "RevisionsCount");
+                loadListToGUI(wikiParser.getUniqueUserRevisionsList(), "RevisionsCount");
             });
         }
     }
@@ -60,12 +61,12 @@ public class Controller {
     }
 
     private void clear() {
-        revisionsTable.getItems().removeAll(parser.getRevisionsList());
-        revisionsTable.getItems().removeAll(parser.getUniqueUserRevisionsList());
+        revisionsTable.getItems().removeAll(wikiParser.getRevisionsList());
+        revisionsTable.getItems().removeAll(wikiParser.getUniqueUserRevisionsList());
     }
 
     private void checkNotifications() {
-        if (parser.isGoodConnection()) {
+        if (wikiParser.isGoodConnection()) {
             handleRedirection();
             handlePageDoesNotExist();
         }
@@ -75,19 +76,19 @@ public class Controller {
     }
 
     private void handleRedirection(){
-        if (parser.isRedirection()) {
-            notify.setText(parser.getRedirection());
+        if (wikiParser.isRedirection()) {
+            notify.setText(wikiParser.getRedirection());
         }
     }
 
     private void handlePageDoesNotExist() {
-        if (!parser.doesPageExist()) {
+        if (!wikiParser.doesPageExist()) {
             notify.setText("Page does not exist");
         }
     }
 
     private void handleBadConnection() {
-        if (!parser.isGoodConnection()) {
+        if (!wikiParser.isGoodConnection()) {
             notify.setText("Page could not be Reached. Check internet connection or the server may be down");
         }
     }

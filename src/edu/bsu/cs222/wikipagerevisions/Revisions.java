@@ -25,7 +25,6 @@ public class Revisions {
     }
 
     //TableView of the GUI uses all of the methods below. Compiler doesn't recognize it.
-    @SuppressWarnings("unused")
     public int getRevisionsCount() {
         return revisionsCount;
     }

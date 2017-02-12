@@ -34,15 +34,6 @@ public class wikiXMLParserTest {
     }
 
     @Test
-    public void testParseRevisions() {
-        test.setDoc(openXMLFile("test-assets/Soup.xml"));
-        Revisions rev = new Revisions("Northamerica1000", "2016-12-23T16:25:19Z");
-        String parsedRevisions = test.parseRevisions().get(0).toString();
-        String testString = rev.toString();
-        Assert.assertTrue(testString.equals(parsedRevisions));
-    }
-
-    @Test
     public void testDoesPageExistTrue() {
         test.setDoc(openXMLFile("test-assets/Soup.xml"));
         Assert.assertTrue(test.doesPageExist());
@@ -83,19 +74,5 @@ public class wikiXMLParserTest {
         test.setDoc(openXMLFile("test-assets/redirection.xml"));
         String check = "Redirected: Obama to Barack Obama";
         Assert.assertTrue(check.equals(test.getRedirection()));
-    }
-
-    @Test
-    public void testIsUniqueUserFalse() {
-        test.setDoc(openXMLFile("test-assets/Soup.xml"));
-        test.parseRevisions();
-        Assert.assertFalse(test.isUniqueUser("Northamerica1000"));
-    }
-
-    @Test
-    public void testIsUniqueUserTrue() {
-        test.setDoc(openXMLFile("test-assets/Soup.xml"));
-        test.parseRevisions();
-        Assert.assertTrue(test.isUniqueUser("HeebeeGeebee"));
     }
 }
