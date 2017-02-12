@@ -46,7 +46,7 @@ public class Controller {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
                 clear();
-                loadListToGUI(model.getUniqueUserRevisionsList(), "revisionsCount");
+                loadListToGUI(model.getUniqueUserRevisionsList(), "RevisionsCount");
             });
         }
     }
@@ -89,7 +89,7 @@ public class Controller {
 
     private void handleBadConnection() {
         if (!model.isGoodConnection()) {
-            notify.setText("Page could not be Reached. The servers may be down or check internet connection");
+            notify.setText("Page could not be Reached. Check internet connection or the server may be down");
         }
     }
 }

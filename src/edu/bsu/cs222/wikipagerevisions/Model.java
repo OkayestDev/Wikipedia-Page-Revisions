@@ -16,7 +16,7 @@ public class Model {
     private Document doc;
     private URL url;
 
-    void executeModel(String search) {
+    public void executeModel(String search) {
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
@@ -24,7 +24,7 @@ public class Model {
         }
     }
 
-    void clear() {
+    public void clear() {
         revisionsList = new ArrayList<>();
         uniqueUserRevisions = new ArrayList<>();
     }
@@ -112,7 +112,7 @@ public class Model {
         return check.getLength() >= 1;
     }
 
-    boolean isGoodConnection() {
+    public boolean isGoodConnection() {
         try {
             url.openConnection();
             return true;
@@ -131,11 +131,11 @@ public class Model {
         return "";
     }
 
-    List<Revisions> getRevisionsList() {
+    public List<Revisions> getRevisionsList() {
         return revisionsList;
     }
 
-    List<Revisions> getUniqueUserRevisionsList() {
+    public List<Revisions> getUniqueUserRevisionsList() {
         return uniqueUserRevisions;
     }
 

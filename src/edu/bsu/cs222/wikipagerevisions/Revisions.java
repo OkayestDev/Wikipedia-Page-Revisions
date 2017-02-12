@@ -43,6 +43,14 @@ public class Revisions {
         return user;
     }
 
+    int getRevisionsCount() {
+        return revisionsCount;
+    }
+
+    String getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public String toString() {
         return "User: " + user + " Timestamp: " + timestamp + " Count: " + revisionsCount;

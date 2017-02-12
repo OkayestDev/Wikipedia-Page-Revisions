@@ -15,7 +15,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-            <TextField fx:id="searchField"/>
+            <TextField fx:id="searchField" />
             <Button mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
             <Button mnemonicParsing="false" onAction="#handleRevisionCountButton" text="Revision Count" />
       </HBox>
