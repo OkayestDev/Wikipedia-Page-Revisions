@@ -9,11 +9,10 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.net.URL;
 
 public class modelTest {
     @FXML
-    private Model test = new Model();
+    private parseRevisions test = new parseRevisions();
 
     private Document openXMLFile(String fileName) {
         try {

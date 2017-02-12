@@ -21,7 +21,7 @@ public class Controller {
     @FXML
     private Label notify;
 
-    private Model model = new Model();
+    private parseRevisions parser = new parseRevisions();
     private boolean hasBeenSearched = false;
 
     @FXML
@@ -30,12 +30,12 @@ public class Controller {
             timestampColumn.setText("Timestamp");
             Platform.runLater(() -> {
                 clear();
-                model.clear();
+                parser.clear();
                 notify.setText("");
                 hasBeenSearched = true;
-                model.executeModel(searchField.getText());
+                parser.executeParseRevisions(searchField.getText());
                 checkNotifications();
-                loadListToGUI(model.getRevisionsList(), "timestamp");
+                loadListToGUI(parser.getRevisionsList(), "timestamp");
             });
         }
     }
@@ -46,7 +46,7 @@ public class Controller {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
                 clear();
-                loadListToGUI(model.getUniqueUserRevisionsList(), "RevisionsCount");
+                loadListToGUI(parser.getUniqueUserRevisionsList(), "RevisionsCount");
             });
         }
     }
@@ -61,12 +61,12 @@ public class Controller {
     }
 
     private void clear() {
-        revisionsTable.getItems().removeAll(model.getRevisionsList());
-        revisionsTable.getItems().removeAll(model.getUniqueUserRevisionsList());
+        revisionsTable.getItems().removeAll(parser.getRevisionsList());
+        revisionsTable.getItems().removeAll(parser.getUniqueUserRevisionsList());
     }
 
     private void checkNotifications() {
-        if (model.isGoodConnection()) {
+        if (parser.isGoodConnection()) {
             handleRedirection();
             handlePageDoesNotExist();
         }
@@ -76,19 +76,19 @@ public class Controller {
     }
 
     private void handleRedirection(){
-        if (model.isRedirection()) {
-            notify.setText(model.getRedirection());
+        if (parser.isRedirection()) {
+            notify.setText(parser.getRedirection());
         }
     }
 
     private void handlePageDoesNotExist() {
-        if (!model.doesPageExist()) {
+        if (!parser.doesPageExist()) {
             notify.setText("Page does not exist");
         }
     }
 
     private void handleBadConnection() {
-        if (!model.isGoodConnection()) {
+        if (!parser.isGoodConnection()) {
             notify.setText("Page could not be Reached. Check internet connection or the server may be down");
         }
     }

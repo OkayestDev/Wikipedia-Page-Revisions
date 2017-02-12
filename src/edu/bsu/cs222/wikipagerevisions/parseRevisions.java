@@ -10,13 +10,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model {
+public class parseRevisions {
     private List<Revisions> revisionsList = new ArrayList<>();
     private List<Revisions> uniqueUserRevisions = new ArrayList<>();
     private Document doc;
     private URL url;
 
-    public void executeModel(String search) {
+    public void executeParseRevisions(String search) {
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
