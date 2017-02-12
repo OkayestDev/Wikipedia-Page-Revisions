@@ -16,7 +16,7 @@ public class wikiXMLParser {
     private Document doc;
     private URL url;
 
-    public void executeParseRevisions(String search) {
+    void wikiParser(String search) {
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
@@ -87,7 +87,7 @@ public class wikiXMLParser {
         }
     }
 
-    private boolean isUniqueUser(String user) {
+    public boolean isUniqueUser(String user) {
         for (Revisions rev: revisionsList) {
             if (rev.getUser().equals(user)) {
                 return false;
