@@ -20,8 +20,7 @@ public class Controller {
     private TableView<Revisions> revisionsTable;
     @FXML
     private Label notify;
-
-    private parseRevisions parser = new parseRevisions();
+    private wikiXMLParser parser = new wikiXMLParser();
     private boolean hasBeenSearched = false;
 
     @FXML
@@ -33,9 +32,9 @@ public class Controller {
                 parser.clear();
                 notify.setText("");
                 hasBeenSearched = true;
-                parser.executeParseRevisions(searchField.getText());
+                parser.wikiParser(searchField.getText());
                 checkNotifications();
-                loadListToGUI(parser.getRevisionsList(), "timestamp");
+                loadListToGUI(parser.getRevisionsList(), "Timestamp");
             });
         }
     }
