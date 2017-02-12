@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class parseRevisions {
+public class wikiXMLParser {
     private List<Revisions> revisionsList = new ArrayList<>();
     private List<Revisions> uniqueUserRevisions = new ArrayList<>();
     private Document doc;
@@ -24,7 +24,7 @@ public class parseRevisions {
         }
     }
 
-    public void clear() {
+    void clear() {
         revisionsList = new ArrayList<>();
         uniqueUserRevisions = new ArrayList<>();
     }
