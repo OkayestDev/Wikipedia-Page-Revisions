@@ -2,16 +2,12 @@ package edu.bsu.cs222.wikipagerevisions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Revisions {
     private String user;
     private String timestamp;
-    int revisionsCount;
+    private int revisionsCount;
 
     public Revisions(String user, String timestamp) {
         this.user = user;
@@ -43,16 +39,8 @@ public class Revisions {
         return localizeTimestamp(timestamp);
     }
 
-    public String getUser() {
+    String getUser() {
         return user;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public int getRevisionsCount() {
-        return revisionsCount;
     }
 
     @Override
@@ -60,7 +48,7 @@ public class Revisions {
         return "User: " + user + " Timestamp: " + timestamp + " Count: " + revisionsCount;
     }
 
-    public void increaseRevisionsCount() {
+    void increaseRevisionsCount() {
         revisionsCount++;
     }
 }

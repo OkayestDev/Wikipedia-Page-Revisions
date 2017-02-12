@@ -16,7 +16,7 @@ public class Model {
     private Document doc;
     private URL url;
 
-    public void executeModel(String search) {
+    void executeModel(String search) {
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
@@ -24,7 +24,7 @@ public class Model {
         }
     }
 
-    public void clear() {
+    void clear() {
         revisionsList = new ArrayList<>();
         uniqueUserRevisions = new ArrayList<>();
     }
@@ -44,7 +44,7 @@ public class Model {
         }
     }
 
-    public Document URLtoDoc() {
+    private Document URLtoDoc() {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -112,7 +112,7 @@ public class Model {
         return check.getLength() >= 1;
     }
 
-    public boolean isGoodConnection() {
+    boolean isGoodConnection() {
         try {
             url.openConnection();
             return true;
@@ -131,27 +131,15 @@ public class Model {
         return "";
     }
 
-    public List<Revisions> getRevisionsList() {
+    List<Revisions> getRevisionsList() {
         return revisionsList;
     }
 
-    public List<Revisions> getUniqueUserRevisionsList() {
+    List<Revisions> getUniqueUserRevisionsList() {
         return uniqueUserRevisions;
     }
 
-    //All of below is for test purposes
-    public URL getUrl() {
-        return url;
-    }
-
-    public Document getDoc() {
-        return doc;
-    }
-
-    public void setUrl(URL url) {
-        this.url = url;
-    }
-
+    //Test purposes only
     public void setDoc(Document doc) {
         this.doc = doc;
     }

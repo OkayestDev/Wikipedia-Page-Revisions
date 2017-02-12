@@ -46,7 +46,7 @@ public class Controller {
             timestampColumn.setText("Revision Count");
             Platform.runLater(() -> {
                 clear();
-                loadListToGUI(model.getUniqueUserRevisionsList(), "RevisionsCount");
+                loadListToGUI(model.getUniqueUserRevisionsList(), "revisionsCount");
             });
         }
     }
@@ -65,7 +65,7 @@ public class Controller {
         revisionsTable.getItems().removeAll(model.getUniqueUserRevisionsList());
     }
 
-    public void checkNotifications() {
+    private void checkNotifications() {
         if (model.isGoodConnection()) {
             handleRedirection();
             handlePageDoesNotExist();
