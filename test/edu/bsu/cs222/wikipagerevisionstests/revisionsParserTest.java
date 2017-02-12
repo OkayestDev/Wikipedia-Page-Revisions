@@ -53,4 +53,11 @@ public class revisionsParserTest {
         String revToString = "User: Northamerica1000 Timestamp: null Count: 23";
         Assert.assertEquals(revToString, test.getUniqueUserRevisionsList().get(0).toString());
     }
+
+    @Test
+    public void testRevisionCounter() {
+        Document doc = openXMLFile();
+        test.parseRevisions(doc);
+        Assert.assertEquals(23, test.getUniqueUserRevisionsList().get(0).getRevisionsCount());
+    }
 }
