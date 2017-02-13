@@ -89,7 +89,7 @@ public class Controller {
 
     private void handleBadConnection() {
         if (!wikiParser.isGoodConnection()) {
-            notify.setText("Page could not be Reached. Check internet connection or the server may be down");
+            notify.setText("Page couldn't be reached. Check internet connection or the server may be down");
         }
     }
 }
