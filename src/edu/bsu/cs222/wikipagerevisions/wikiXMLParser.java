@@ -17,6 +17,7 @@ public class wikiXMLParser {
     private revisionsParser revParser = new revisionsParser();
 
     void wikiParser(String search) {
+        revParser = new revisionsParser();
         url = loadURL(search);
         if (isGoodConnection()) {
             doc = URLtoDoc();
