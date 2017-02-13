@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
         primaryStage.setTitle("Wikipedia Page Revisions");
-        primaryStage.setScene(new Scene(root, 800, 825));
+        primaryStage.setScene(new Scene(root, 825, 825));
         primaryStage.show();
     }
 
